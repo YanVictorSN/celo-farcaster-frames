@@ -70,3 +70,4 @@ To test the frame, open the Warpcast app, go to Developer Tools, and test both t
 
 Here’s the link to this template: [Farcaster v2 Frame Template](https://farcaster-v2-frame-template.vercel.app/)
 
+
