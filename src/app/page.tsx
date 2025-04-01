@@ -3,16 +3,22 @@ import App from "./app";
 
 const appUrl = process.env.NEXT_PUBLIC_URL;
 
+//
+// This is the main frame — the one that appears embedded when we share our link.
+//
 const frame = {
   version: "next",
-  imageUrl: `${appUrl}/opengraph-image`,
+  // This is the image displayed when sharing the link.
+  imageUrl: `${appUrl}/tipme.png`,
+  // This is the button displayed when sharing the link.
   button: {
-    title: "Launch Frame",
+    title: "Tip Me",
     action: {
       type: "launch_frame",
-      name: "Farcaster Frames v2 Demo",
+      name: "Tip Me",
       url: appUrl,
-      splashImageUrl: `${appUrl}/splash.png`,
+      splashImageUrl: `${appUrl}/celo
+      `,
       splashBackgroundColor: "#f7f7f7",
     },
   },
@@ -22,10 +28,10 @@ export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Farcaster Frames v2 Demo",
+    title: "Tip Me",
     openGraph: {
-      title: "Farcaster Frames v2 Demo",
-      description: "A Farcaster Frames v2 demo app.",
+      title: "Tip Me",
+      description: "Tip your friends and favorite creators with crypto!",
     },
     other: {
       "fc:frame": JSON.stringify(frame),

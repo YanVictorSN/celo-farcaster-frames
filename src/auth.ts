@@ -41,6 +41,7 @@ export const authOptions: AuthOptions = {
         },
       },
       async authorize(credentials, req) {
+        console.log(credentials, req);
         const csrfToken = req?.body?.csrfToken;
         const appClient = createAppClient({
           ethereum: viemConnector(),

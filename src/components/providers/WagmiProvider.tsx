@@ -1,17 +1,33 @@
-import { createConfig, http, WagmiProvider } from "wagmi";
-import { base, degen, mainnet, optimism } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
+import "@rainbow-me/rainbowkit/styles.css";
+import { walletConnectWallet } from '@rainbow-me/rainbowkit/wallets';
+import { http, WagmiProvider } from "wagmi";
+import { RainbowKitProvider, getDefaultConfig } from "@rainbow-me/rainbowkit";
 
-export const config = createConfig({
-  chains: [base, optimism, mainnet, degen],
-  transports: {
-    [base.id]: http(),
-    [optimism.id]: http(),
-    [mainnet.id]: http(),
-    [degen.id]: http(),
+import { celo, celoAlfajores} from "wagmi/chains";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const wallets = [
+  {
+    groupName: 'Recommended',
+    wallets: [walletConnectWallet],
   },
-  connectors: [farcasterFrame()],
+];
+
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "";
+if (!projectId) {
+  console.warn("WalletConnect Project ID não está definido! Isso pode causar problemas de conexão.");
+}
+
+export const config = getDefaultConfig({
+  appName: "Tip Me",
+  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "",
+  chains: [celo, celoAlfajores],
+  transports: {
+    [celo.id]: http(),
+    [celoAlfajores.id]: http(),
+  },
+  wallets,
+  ssr: true,
 });
 
 const queryClient = new QueryClient();
@@ -19,7 +35,7 @@ const queryClient = new QueryClient();
 export default function Provider({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}><RainbowKitProvider>{children}</RainbowKitProvider></QueryClientProvider>
     </WagmiProvider>
   );
 }
